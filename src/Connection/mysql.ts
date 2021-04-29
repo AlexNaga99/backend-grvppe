@@ -1,12 +1,15 @@
 import mysql from 'mysql';
 import { Logger } from '@nestjs/common';
+import { config } from 'dotenv';
+
+config();
 
 export const connect_bd = mysql.createConnection({
-    host: '127.0.0.1',
-    user: 'root2',
-    port: 3306,
-    password: 'a253926373',
-    database: 'db_grvppe',
+    host: process.env.HOST,
+    user: process.env.USER,
+    port: parseInt(process.env.PORT),
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE,
     insecureAuth: true,
 });
 
