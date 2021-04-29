@@ -1,12 +1,33 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Param, Body } from '@nestjs/common';
 import { AppService } from './app.service';
+import { interfaceMovies, interfaceFavoriteMovies, interfaceDeleteMovie, interfaceInsertMovies } from './interface';
 
-@Controller()
+@Controller('movies')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Get(':page')
+  async getMoviesByPage(@Param('page') pageNumber: interfaceMovies) {
+    return await this.appService.getMoviesByPage(pageNumber);
+  }
+
+  @Get('favorite/:id')
+  async getFavoriteMovies(@Param('id') userId: interfaceFavoriteMovies) {
+    return await this.appService.getFavoriteMovies(userId);
+  }
+
+  @Post('favorite')
+  async insertFavoriteMovie(@Body() body: interfaceInsertMovies) {
+    return await this.appService.insertFavoriteMovie(body);
+  }
+
+  @Post()
+  async insertMovie(@Body() body: interfaceInsertMovies) {
+    return await this.appService.insertMovie(body);
+  }
+
+  @Delete(':id')
+  async deleteMovie(@Param('id') id: interfaceDeleteMovie) {
+    return await this.appService.deleteMovie(id);
   }
 }

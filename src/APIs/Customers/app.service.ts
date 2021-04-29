@@ -4,7 +4,7 @@ import { connect_bd, executeQuery  } from '../../Connection/mysql';
 
 @Injectable()
 export class AppService {
-  
+
   async getCustomerById(id: number) {
     try {
 
@@ -18,7 +18,7 @@ export class AppService {
       let mysql = await executeQuery(query);
       return mysql;
     } catch (error) {
-      return error;
+      return [{ erro: error, data: '' }];
     }
   }
 
@@ -35,7 +35,7 @@ export class AppService {
       let mysql = await executeQuery(query);
       return mysql;
     } catch (error) {
-      return error;
+      return [{ erro: error, data: '' }];
     }
   }
 
@@ -61,10 +61,10 @@ export class AppService {
         return mysql;
       }
       else {
-        return [{ erro: 'Usuário já existente!', data: '' }];
+        return [{ erro: 'User already exists.', data: '' }];
       }
     } catch (error) {
-      return error;
+      return [{ erro: error, data: '' }];
     }
   }
 
@@ -76,7 +76,7 @@ export class AppService {
       let mysql = await executeQuery(query);
       return mysql;
     } catch (error) {
-      return error;
+      return [{ erro: error, data: '' }];
     }
   }
 
@@ -94,7 +94,7 @@ export class AppService {
       let mysql = await executeQuery(query);
       return mysql;
     } catch (error) {
-      return error;
+      return [{ erro: error, data: '' }];
     }
   }
 
@@ -104,12 +104,12 @@ export class AppService {
       let query = ` SELECT 
                       id
                     FROM ${process.env.DATABASE}.customers
-                    WHERE cpf = '${cpf}' OR email = '${email}'`;
+                    WHERE cpf = '${cpf}' AND email = '${email}'`;
 
       let mysql = await executeQuery(query);
       return mysql;
     } catch (error) {
-      return error;
+      return [{ erro: error, data: '' }];
     }
   }
 
