@@ -9,28 +9,39 @@ export class AppService {
     try {
       let result = await request.get(`${process.env.API_URL}/3/movie/top_rated?api_key=${process.env.API_KEY}&page=${pageNumber}`);
       if(result.status === 200){
-        return [{ erro: '', data: result.data }];
+        return [{ erro: [], data: result.data }];
       }
       else {
-        return [{ erro: 'Request has a problem.', data: '' }];
+        return [{ erro: 'Problema na requisição.', data: [] }];
       }
     } catch (error) {
-      return [{ erro: error.message, data: '' }];
+      return [{ erro: error.message, data: [] }];
     }
   }
 
-  async getFavoriteMovies(userId: interfaceFavoriteMovies) {
+  async getFavoriteMovies(userId: interfaceFavoriteMovies, status: number) {
     try {
 
       let query = ` SELECT 
                       *
                     FROM ${process.env.DATABASE}.movies
-                    WHERE idCustomer = ${userId} AND favorite = 1`;
+                    WHERE idCustomer = ${userId} AND favorite = ${status}`;
                     
       let mysql = await executeQuery(query);
-      return mysql;
+      let response_query = mysql[0];
+      let movies = [];
+
+      if(!response_query.erro){
+          for (const obj of response_query.data) {
+            let result = await request.get(`${process.env.API_URL}/3/movie/${obj.idMovie}?api_key=${process.env.API_KEY}`);
+            if(result.status === 200){
+              movies.push(result.data);
+            }
+          }
+      }
+      return [{ erro: '', data: movies }];
     } catch (error) {
-      return [{ erro: error, data: '' }];
+      return [{ erro: error, data: [] }];
     }
   }
 
@@ -57,10 +68,10 @@ export class AppService {
         return mysql;
       }
       else {
-        return [{ erro: 'Movie already exists in your list.', data: '' }];
+        return [{ erro: 'Filme já existe em sua lista.', data: [] }];
       }
     } catch (error) {
-      return [{ erro: error, data: '' }];
+      return [{ erro: error, data: [] }];
     }
   }
 
@@ -72,7 +83,7 @@ export class AppService {
       let mysql = await executeQuery(query);
       return mysql;
     } catch (error) {
-      return [{ erro: error, data: '' }];
+      return [{ erro: error, data: [] }];
     }
   }
 
@@ -93,22 +104,23 @@ export class AppService {
             let query = ` UPDATE ${process.env.DATABASE}.movies 
                           SET 
                             favorite = ${body.favorite} 
-                          WHERE id = ${body.id};
+                          WHERE idCustomer = ${body.idCustomer}
+                          AND idMovie = ${body.idMovie};
                           `;
 
             let mysql = await executeQuery(query);
             return mysql;
           }
           else {
-            return [{ erro: 'The number of favorite films has been exceeded.', data: '' }];
+            return [{ erro: 'Quantidade máxima de filmes favoritos foi excedido.', data: [] }];
           }
         }
       }
       else {
-        return [{ erro: 'Movie does not exist on your list.', data: '' }];
+        return [{ erro: 'Filme não existe na sua lista.', data: [] }];
       }
     } catch (error) {
-      return [{ erro: error, data: '' }];
+      return [{ erro: error, data: [] }];
     }
   }
 
@@ -123,7 +135,7 @@ export class AppService {
       let mysql = await executeQuery(query);
       return mysql;
     } catch (error) {
-      return [{ erro: error, data: '' }];
+      return [{ erro: error, data: [] }];
     }
   }
 
@@ -138,7 +150,7 @@ export class AppService {
       let mysql = await executeQuery(query);
       return mysql;
     } catch (error) {
-      return [{ erro: error, data: '' }];
+      return [{ erro: error, data: [] }];
     }
   }
 }

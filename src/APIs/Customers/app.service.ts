@@ -18,7 +18,7 @@ export class AppService {
       let mysql = await executeQuery(query);
       return mysql;
     } catch (error) {
-      return [{ erro: error, data: '' }];
+      return [{ erro: error, data: [] }];
     }
   }
 
@@ -35,7 +35,7 @@ export class AppService {
       let mysql = await executeQuery(query);
       return mysql;
     } catch (error) {
-      return [{ erro: error, data: '' }];
+      return [{ erro: error, data: [] }];
     }
   }
 
@@ -61,10 +61,10 @@ export class AppService {
         return mysql;
       }
       else {
-        return [{ erro: 'User already exists.', data: '' }];
+        return [{ erro: 'Usuário já existe.', data: [] }];
       }
     } catch (error) {
-      return [{ erro: error, data: '' }];
+      return [{ erro: error, data: [] }];
     }
   }
 
@@ -76,7 +76,7 @@ export class AppService {
       let mysql = await executeQuery(query);
       return mysql;
     } catch (error) {
-      return [{ erro: error, data: '' }];
+      return [{ erro: error, data: [] }];
     }
   }
 
@@ -94,7 +94,7 @@ export class AppService {
       let mysql = await executeQuery(query);
       return mysql;
     } catch (error) {
-      return [{ erro: error, data: '' }];
+      return [{ erro: error, data: [] }];
     }
   }
 
@@ -109,7 +109,7 @@ export class AppService {
       let mysql = await executeQuery(query);
       return mysql;
     } catch (error) {
-      return [{ erro: error, data: '' }];
+      return [{ erro: error, data: [] }];
     }
   }
 

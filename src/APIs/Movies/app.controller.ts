@@ -11,9 +11,9 @@ export class AppController {
     return await this.appService.getMoviesByPage(pageNumber);
   }
 
-  @Get('favorite/:id')
-  async getFavoriteMovies(@Param('id') userId: interfaceFavoriteMovies) {
-    return await this.appService.getFavoriteMovies(userId);
+  @Get('favorite/:id/:status')
+  async getFavoriteMovies(@Param('id') userId: interfaceFavoriteMovies, @Param('status') status: number) {
+    return await this.appService.getFavoriteMovies(userId, status);
   }
 
   @Post('favorite')
